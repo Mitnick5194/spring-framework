@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanConfig {
 
+	public BeanConfig(){
+		System.out.println("abdf");
+	}
+
 	@Bean
 	public String address() {
 		return "ajie";

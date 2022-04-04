@@ -532,6 +532,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.applicationListeners;
 	}
 
+	/**
+	 * springboot使用的是AnnotationConfigServletWebServerApplicationContext，属于springboot自己实现的容器子类
+	 *
+	 * @throws BeansException
+	 * @throws IllegalStateException
+	 */
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
@@ -565,12 +571,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				//为本容器初始化消息源
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//为本容器初始化事件多播器
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//初始化具体子类容器其他特殊的bean
+				//1、AnnotationConfigApplicationContext无实现
 				onRefresh();
 
 				// Check for listener beans and register them.
