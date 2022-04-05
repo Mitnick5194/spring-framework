@@ -581,12 +581,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Initialize other special beans in specific context subclasses.
 				//初始化具体子类容器其他特殊的bean
 				//1、AnnotationConfigApplicationContext无实现
+				//2、spring-boot下的AnnotationConfigServletWebServerApplicationContext会在此处初始化
+				//web容器
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//注册监听器并且发布earlyApplicationEvents事件
+				//ApplicationEventMulticaster根据事件的类型找到对应的监听器
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				//重要：实例化剩下的单例bean(非懒加载的)
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
@@ -862,22 +867,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.
+		//有顺序要求，先把ApplicationListener注册进来，将它们放入DefaultListenerRetrieverapplicationListeners
+		//集合中
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
 
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let post-processors apply to them!
+		//拿到所有ApplicationListener类型的监听器bean名，放入DefaultListenerRetriever.applicationListenerBeans集合
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
 		for (String listenerBeanName : listenerBeanNames) {
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
 		}
 
 		// Publish early application events now that we finally have a multicaster...
+		//发布earlyApplicationEvents事件
 		Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
 		this.earlyApplicationEvents = null;
 		if (!CollectionUtils.isEmpty(earlyEventsToProcess)) {
 			for (ApplicationEvent earlyEvent : earlyEventsToProcess) {
+				//ApplicationEventMulticaster会根据事件类型找到对应的监听器并调用
 				getApplicationEventMulticaster().multicastEvent(earlyEvent);
 			}
 		}
@@ -898,11 +908,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no BeanFactoryPostProcessor
 		// (such as a PropertySourcesPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
+		//如果没有默认的属性值解析器（如PropertySourcesPlaceholderConfigurer，解析如：#{xxx}）,则使用默认的
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}
 
 		// Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
+		//初始化LoadTimeWeaverAware类型的bean,我猜测应该是用来编织切面的
 		String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
 		for (String weaverAwareName : weaverAwareNames) {
 			getBean(weaverAwareName);
@@ -915,6 +927,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
+		//重点，实例化单例bean
 		beanFactory.preInstantiateSingletons();
 	}
 
