@@ -12,8 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService, BeanNameAware {
 
+
 	public UserServiceImpl() {
-		System.out.println("sdfsd");
+	}
+
+	@Override
+	public String getUser(String id) {
+		return id;
 	}
 
 	@AopLog

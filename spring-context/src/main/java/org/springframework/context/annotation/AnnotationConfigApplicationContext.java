@@ -63,6 +63,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
+		//注解解析器，在构造里面会将一些注解上下文需要的后置处理器解析成beanDefinition
+		// 并放入beanDefinitionNames和beanDefinitionMap中
+		//见：AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}

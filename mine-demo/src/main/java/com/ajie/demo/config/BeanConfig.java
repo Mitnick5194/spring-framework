@@ -1,10 +1,7 @@
 package com.ajie.demo.config;
 
-import com.ajie.demo.service.UserService;
-import com.ajie.demo.service.impl.UserServiceImpl;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,16 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @EnableAspectJAutoProxy
-@Import({LogAopAspect.class})
+@ComponentScan(basePackages={"com.ajie.demo"})
+//@Import({LogAopAspect.class})
 public class BeanConfig {
 
-	@Bean
-	public String address() {
-		return "ajie";
-	}
-
-	@Bean
-	public UserService userService() {
-		return new UserServiceImpl();
-	}
 }

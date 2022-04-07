@@ -18,7 +18,10 @@ package org.springframework.context.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.config.*;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.*;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
@@ -101,9 +104,12 @@ final class PostProcessorRegistrationDelegate {
 			registryProcessors.addAll(currentRegistryProcessors);
 			//重点：调用实现了PriorityOrdered接口的后置处理器，也就是调用实现了BeanDefinitionRegistryPostProcessor接口bean
 			// 的postProcessBeanDefinitionRegistry方法
+			/* 1、 new AnnotationConfigApplicationContext(BeanConfig.class)：此处的currentRegistryProcessors元素是：
+			   ConfigurationClassPostProcessor，该后置处理器负责对BeanConfig.class进行
+			   解析（@Bean,@ComponentScan,@Import等等），并将扫描或引入等方式对应的类注册成BeanDefinition*/
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
-			//将集合里的内容清空，因为该集合在下面还要使用
- 			currentRegistryProcessors.clear();
+			// 将集合里的内容清空，因为该集合在下面还要使用
+			currentRegistryProcessors.clear();
 
 			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered.
 			//接着，调用实现了Ordered接口的BeanDefinitionRegistryPostProcessors

@@ -19,7 +19,7 @@ public class Main {
 		ac.publishEvent(new MyEvent("这是我的自定义事件1"));
 		ac.publishEvent(new MyEvent2("这是我的自定义事件2"));*/
 		//UserServiceImpl
-		UserService userService = ac.getBean("userService", UserService.class);
+		UserService userService = ac.getBean("userServiceImpl", UserService.class);
 		userService.addUser();
 	}
 

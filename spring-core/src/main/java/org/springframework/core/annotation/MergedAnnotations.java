@@ -16,6 +16,9 @@
 
 package org.springframework.core.annotation;
 
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
 import java.lang.reflect.AnnotatedElement;
@@ -23,9 +26,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
 /**
  * Provides access to a collection of merged annotations, usually obtained
@@ -331,7 +331,7 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 	}
 
 	/**
-	 * Create a new {@link MergedAnnotations} instance containing all
+	 * Create a new {@link  MergedAnnotations} instance containing all
 	 * annotations and meta-annotations from the specified element and,
 	 * depending on the {@link SearchStrategy}, related inherited elements.
 	 * @param element the source element

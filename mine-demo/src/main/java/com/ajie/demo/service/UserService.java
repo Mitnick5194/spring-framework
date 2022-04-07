@@ -6,5 +6,7 @@ package com.ajie.demo.service;
  */
 public interface UserService {
 
+	String getUser(String id);
+
 	Integer addUser();
 }
