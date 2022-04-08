@@ -55,19 +55,23 @@ final class PostProcessorRegistrationDelegate {
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
 			//没有实现BeanDefinitionRegistryPostProcessor接口的bean集合
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
-			//实现了BeanDefinitionRegistryPostProcessor接口
+			//实现了BeanDefinitionRegistryPostProcessor接口所有的类，交给invokeBeanFactoryPostProcessors执行
+			//注意与invokeBeanDefinitionRegistryPostProcessors区分，这个是BeanDefinition注册的后置处理器
+			//而invokeBeanFactoryPostProcessors是Bean工厂的后置处理器，并且要在注册处理器全部执行完后才执行
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 
 			//将入参的beanFactoryPostProcessors进行分类，区分是否实现了BeanDefinitionRegistryPostProcessor接口
+			//实现改接口的，需要注册后置处理器（org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor
+			// .postProcessBeanDefinitionRegistry）
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor) {
 					BeanDefinitionRegistryPostProcessor registryProcessor =
 							(BeanDefinitionRegistryPostProcessor) postProcessor;
-					//重点：这里第一次调用了后置处理器的回调方法
+					//重点：调用注册处理器
 					registryProcessor.postProcessBeanDefinitionRegistry(registry);
-					//调用完之后，放入registryProcessors集合中，后面还要在调用一次（todo 不明白为啥后面还要调用）
 					registryProcessors.add(registryProcessor);
 				} else {
+					//不是注册类型，后面调用工厂处理器
 					regularPostProcessors.add(postProcessor);
 				}
 			}
@@ -152,11 +156,11 @@ final class PostProcessorRegistrationDelegate {
 				invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 				currentRegistryProcessors.clear();
 			}
-			//=======================到此，实现了BeanDefinitionRegistryPostProcessors接口的处理器已经处理完了====================================
+			//=======================到此，实现了BeanDefinitionRegistryPostProcessors接口的处理器已经处理完了==================
 			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
 			//将已经回调过的处理器再回调一次，这就是上面我所说的不明白之处，为啥要调两遍？？？
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
-			//调用没有实现BeanDefinitionRegistryPostProcessor接口的bean集合
+			//调用入参没有实现BeanDefinitionRegistryPostProcessor接口的工厂后置处理器
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
 		} else {
 			// Invoke factory processors registered with the context instance.
@@ -164,7 +168,7 @@ final class PostProcessorRegistrationDelegate {
 			invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
 		}
 
-		//==========================//下面，和上面的逻辑很相似，但是是对BeanFactoryPostProcessor类型进行处理==================================
+		//==========================//下面，和上面的逻辑很相似，但是是对BeanFactoryPostProcessor类型的bean进行处理=====================
 
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let the bean factory post-processors apply to them!
