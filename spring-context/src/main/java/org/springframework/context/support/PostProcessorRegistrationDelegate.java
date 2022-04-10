@@ -158,7 +158,7 @@ final class PostProcessorRegistrationDelegate {
 			}
 			//=======================到此，实现了BeanDefinitionRegistryPostProcessors接口的处理器已经处理完了==================
 			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
-			//将已经回调过的处理器再回调一次，这就是上面我所说的不明白之处，为啥要调两遍？？？
+			//调用bean工厂（非入参）的后置处理器，预处理代理生成
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			//调用入参没有实现BeanDefinitionRegistryPostProcessor接口的工厂后置处理器
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
