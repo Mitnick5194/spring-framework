@@ -1,8 +1,8 @@
 package com.ajie.demo.service.impl;
 
-import com.ajie.demo.annotation.AopLog;
-import com.ajie.demo.service.UserService;
+import com.ajie.demo.service.AddressService;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,19 +10,21 @@ import org.springframework.stereotype.Service;
  * @Date: 2022/4/4
  */
 @Service
-public class UserServiceImpl implements UserService, BeanNameAware {
+public class UserServiceImpl implements/* UserService, */ BeanNameAware {
 
+	@Autowired
+	private AddressService addressService;
 
 	public UserServiceImpl() {
 	}
 
-	@Override
+	//@Override
 	public String getUser(String id) {
 		return id;
 	}
 
-	@AopLog
-	@Override
+	//@AopLog
+	//@Override
 	public Integer addUser() {
 		return null;
 	}
