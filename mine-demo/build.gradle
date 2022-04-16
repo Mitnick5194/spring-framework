@@ -18,4 +18,6 @@ dependencies {
     compile(project(":spring-context"))
     compile(project(":spring-aspects"))
     compile(project(":spring-tx"))
+    compile(project(":spring-jdbc"))
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
 }
