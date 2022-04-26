@@ -541,7 +541,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
-			//以下每一行差不多可以理解为bean生命周期的一个节点
 			// Prepare this context for refreshing.
 			//只是简单的设置一些标记符，初始化一些Map
 			prepareRefresh();

@@ -1,8 +1,6 @@
 package com.ajie.demo;
 
 import com.ajie.demo.config.BeanConfig;
-import com.ajie.demo.service.UserService;
-import com.ajie.demo.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -20,8 +18,8 @@ public class Main {
 		ac.publishEvent(new MyEvent("这是我的自定义事件1"));
 		ac.publishEvent(new MyEvent2("这是我的自定义事件2"));*/
 		//UserServiceImpl
-		UserService userService = ac.getBean("userServiceImpl", UserServiceImpl.class);
-		userService.getUser(null);
+		//UserService userService = ac.getBean("userServiceImpl", UserServiceImpl.class);
+		//userService.getUser(null);
 	}
 
 }

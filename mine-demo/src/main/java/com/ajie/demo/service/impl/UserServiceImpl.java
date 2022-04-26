@@ -6,7 +6,6 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: niezhenjie
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService,  BeanNameAware {
 
-	//@Autowired
+	@Autowired
 	private AddressService addressService;
 
 	@Autowired
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService,  BeanNameAware {
 	}
 
 	//@Override
-	@Transactional
+	//@Transactional
 	public String getUser(String id) {
 		jdbcTemplate.execute("INSERT INTO `demo`.`student` (`test`, `id`, `stu_name`, `c_id`, `score`) VALUES (NULL, 12, '王八2', 2, 98)");
 		throw new RuntimeException();

@@ -1,9 +1,7 @@
 package com.ajie.demo.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import com.ajie.demo.registrar.MineImportBeanDefinitionRegistrar;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -22,7 +20,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.ajie.demo"})
 @Configuration
-//@Import({LogAopAspect.class})
+@Import({MineImportBeanDefinitionRegistrar.class})
 public class BeanConfig {
 
 	@Bean
