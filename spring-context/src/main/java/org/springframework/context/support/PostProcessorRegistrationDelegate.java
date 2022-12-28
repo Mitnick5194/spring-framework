@@ -110,7 +110,9 @@ final class PostProcessorRegistrationDelegate {
 			// 的postProcessBeanDefinitionRegistry方法
 			/* 1、 new AnnotationConfigApplicationContext(BeanConfig.class)：此处的currentRegistryProcessors元素是：
 			   ConfigurationClassPostProcessor，该后置处理器负责对BeanConfig.class进行
-			   解析（@Bean,@ComponentScan,@Import等等），并将扫描或引入等方式对应的类注册成BeanDefinition*/
+			   解析（@Bean,@ComponentScan,@Import,PropertySource等等），并将扫描或引入等方式对应的类注册成BeanDefinition
+				配置文件再此解析并注入到environment
+			   */
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 			// 将集合里的内容清空，因为该集合在下面还要使用
 			currentRegistryProcessors.clear();

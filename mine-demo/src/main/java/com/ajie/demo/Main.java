@@ -1,5 +1,6 @@
 package com.ajie.demo;
 
+import com.ajie.demo.config.ApplicationProperties;
 import com.ajie.demo.config.BeanConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -11,6 +12,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(BeanConfig.class);
+		ApplicationProperties bean = ac.getBean(ApplicationProperties.class);
+		System.out.println(bean.getName());
 		/*String address = ac.getBean("address", String.class);
 		System.out.println(address);*/
 	/*	ac.addApplicationListener(new MyListener());

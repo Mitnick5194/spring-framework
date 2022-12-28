@@ -564,6 +564,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				//调用作为bean注册到该容器的工厂的所有处理器
 				//1、AnnotationConfigApplicationContext： new AnnotationConfigApplicationContext(BeanConfig.class)
 				//在此处对BeanConfig里面的注解进行处理（@Bean,@ComponentScan,@Import等等）
+				//重点：配置文件再次节点加载
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
